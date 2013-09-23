@@ -1,0 +1,5 @@
+var baseURLs = {
+	example: 'http://example.org',
+}
+
+module.exports.baseURLs = baseURLs;
