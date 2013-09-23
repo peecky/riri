@@ -27,9 +27,13 @@ function request(option) {
 		//console.log(res2.statusCode);
 		// todo: check res2.statusCode
 		//console.log(res2.headers);
-		var isHTMLDocument = res2.headers["content-type"].split(';')[0] == 'text/html';
+		var contentTypeMatched = res2.headers["content-type"].match(/^(.*?)(;.*charset=(.*?))?$/i);
+		var isHTMLDocument = contentTypeMatched[1] == 'text/html';
+		var charset = contentTypeMatched[3];
+		if (typeof charset == 'undefined') charset = 'utf-8';
+
 		if (isHTMLDocument) {
-			res2.setEncoding('utf-8');
+			res2.setEncoding(charset);
 		}
 		else {
 			res.writeHead(200, res2.headers);
@@ -52,6 +56,7 @@ function request(option) {
 				responseBody = responseBody.replace(/href="(\/.*?)"/gi, 'href="' + replaceStr);
 				responseBody = responseBody.replace(/action="(\/.*?)"/gi, 'action="' + replaceStr);	// form submit
 
+				res.writeHead(200, {'Content-Type': 'text/html; charset=' + charset});
 				res.end(responseBody);
 			}
 			else res.end();
