@@ -56,6 +56,12 @@ function request(option) {
 				responseBody = responseBody.replace(/href="(\/.*?)"/gi, 'href="' + replaceStr);
 				responseBody = responseBody.replace(/action="(\/.*?)"/gi, 'action="' + replaceStr);	// form submit
 
+				// change absolute URLs with the same domain
+				replaceStr = URIPrefix + baseURLKey;
+				responseBody = responseBody.replace('src="' + baseURL, 'src="' + replaceStr);
+				responseBody = responseBody.replace('href="' + baseURL, 'href="' + replaceStr);
+				responseBody = responseBody.replace('action="' + baseURL, 'action="' + replaceStr);
+
 				res.writeHead(200, {'Content-Type': 'text/html; charset=' + charset});
 				res.end(responseBody);
 			}
