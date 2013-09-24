@@ -22,8 +22,9 @@ function request(option) {
 		return;
 	}
 	var requestURI = urlInfo['path'].substring(URIPrefix.length + baseURLKey.length);
-
-	var req2 = http.request(url.resolve(baseURL, requestURI), function(res2) {
+	var requestOptions = url.parse(url.resolve(baseURL, requestURI));
+	//requestOptions.agent = false;
+	var req2 = http.request(requestOptions, function(res2) {
 		//console.log(res2.statusCode);
 		// todo: check res2.statusCode
 		//console.log(res2.headers);
@@ -67,6 +68,15 @@ function request(option) {
 			}
 			else res.end();
 		});
+	});
+	req2.on('error', function(e) {
+		if (e.code == 'ETIMEOUT) {
+			// ignore
+		}
+		else {
+			console.log('http request() on error: ' + e.message);
+			console.log(e);
+		}
 	});
 	req2.end();
 }
