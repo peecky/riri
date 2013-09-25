@@ -70,7 +70,7 @@ function request(option) {
 		});
 	});
 	req2.on('error', function(e) {
-		if (e.code == 'ETIMEOUT) {
+		if (e.code == 'ETIMEOUT') {
 			// ignore
 		}
 		else {
