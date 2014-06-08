@@ -12,7 +12,7 @@ function request(option) {
 	if (URIPrefix.charAt(URIPrefix.length-1) != '/') URIPrefix = URIPrefix + '/';
 
 	var urlInfo = url.parse(req.url, true);
-	var pathname = urlInfo['pathname'].substring(URIPrefix.length);
+	var pathname = urlInfo.pathname.substring(URIPrefix.length);
 	var baseURLKey = pathname.split('/')[0];
 	var baseURL = config.baseURLs[baseURLKey];
 
@@ -21,7 +21,7 @@ function request(option) {
 		res.end('404 Page not found.');
 		return;
 	}
-	var requestURI = urlInfo['path'].substring(URIPrefix.length + baseURLKey.length);
+	var requestURI = urlInfo.path.substring(URIPrefix.length + baseURLKey.length);
 	var requestOptions = url.parse(url.resolve(baseURL, requestURI));
 	//requestOptions.agent = false;
 	var req2 = http.request(requestOptions, function(res2) {
